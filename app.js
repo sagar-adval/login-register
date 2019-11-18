@@ -100,9 +100,9 @@ app.post('/verification', (req, res) => {
         res.status(404).send('Error')
     }
 })
+const port=process.env.PORT || 3000;
 
-
-app.listen(4000, () => {
+app.listen(port, () => {
     console.log('server is up and running at port 4000')
 })
 
