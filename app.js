@@ -23,7 +23,7 @@ app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: true }))
 
 
-mongoose.connect('mongodb://localhost:27017/Login-Register', (err) => {
+mongoose.connect('mongodb+srv://sagar:sagar123@cluster0-maeki.mongodb.net/test', (err) => {
     if(err){
         console.log('Error connecting to database')
     }
