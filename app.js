@@ -52,6 +52,7 @@ app.post('/register', (req, res) => {
 
     var data = new User(req.body);
     data.save().then(() => {
+        console.log('sdfsdf')
         res.render('login')
     }).catch((e) => {
         res.status(400).send(e)
@@ -68,15 +69,23 @@ app.post('/login', (req,res) => {
     })
 
 })
-
 app.post('/resetpass', (req,res) => {
-    var data = lodash.pick(req.body, ['email'])
-    User.OTP(data.email).then((user) => {
-        res.render('verification')
-    }).catch((e) => {
-        res.send('unable to send OTP')
-    })
-})
+    var data = lodash.pick(req.body, ['email']);
+    var a=User.OTP(data.email);
+    if(a==1){
+        res.render('verification');
+    }else {
+        res.send('Sorry unable to send OTP');
+    }
+});
+// app.postst('/resetpass', (req,res) => {
+//     var data = lodash.pick(req.body, ['email'])
+//     User.OTP(data.email).then((user) => {
+//         res.render('verification')
+//     }).catch((e) => {
+//         res.send('unable to send OTP')
+//     })
+// })
 
 app.get('/verification', (req, res) => {
     res.render('verification')

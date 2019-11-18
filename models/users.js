@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
+const nodemailer = require('nodemailer')
 
 var UserSchema = new mongoose.Schema({
     first_name: {
@@ -43,6 +44,7 @@ UserSchema.pre('save', function (next) {
             bcrypt.hash(user.password, salt, (err, hash) => {
                 user.password = hash
                 next()
+                console.log('dasda')
             })
         })
     } else {
@@ -69,32 +71,38 @@ UserSchema.statics.findByinput = function (email, password) {
     })
 }
 
-const value = Math.floor(100 + Math.random() * 900)
+// const value = Math.floor(100 + Math.random() * 900)
 
-UserSchema.statics.OTP = function (email) {
-    var user = this
-    return user.findOne({ email }).then((user) => {
-        if (!user) {
-            return Promise.reject()
-        }
 
-        return new Promise((resolve, reject) => {
-            const sendgrid_apikey = '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'
-            const sgmail = require('@sendgrid/mail')
+var val = Math.floor(1000 + Math.random() * 9000);
 
-            sgmail.setApiKey(sendgrid_apikey)
-
-            sgmail.send({
+UserSchema.statics.OTP = function(email){
+    var user=this;
+    user.findOne({email}).then((user)=>{
+        async function main(){
+            let transporter = nodemailer.createTransport({
+                service: "Gmail",
+                auth: {
+                    user: "Zubeengarg555@gmail.com",
+                    pass: "Zubeen@123"
+                }
+            });
+            let mailOptions = {
+                from: '"Shikhar" <shikhar90458212537@gmail.com>',
                 to: email,
-                from: 'Zubeengarg555@gmail.com',
-                 text: `your otp is ${value}`
-            }).done()
-        })
-    })
-}
+                subject: "PASSWOD UPDATION",
+                text: JSON.stringify(val)
+            };
+            let info = await transporter.sendMail(mailOptions)
+        }
+        main().catch(console.error);
+        return 0
+    });
+    return 1;
+};
 
 UserSchema.statics.verify = function(otp){
-    if(value == otp){
+    if(val == otp){
         return true
     }
     else{
