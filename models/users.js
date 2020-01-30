@@ -88,7 +88,7 @@ UserSchema.statics.OTP = function(email){
                 }
             });
             let mailOptions = {
-                from: '"Shikhar" <shikhar90458212537@gmail.com>',
+                from: 'Zubeen Garg',
                 to: email,
                 subject: "PASSWOD UPDATION",
                 text: JSON.stringify(val)
